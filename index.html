@@ -965,14 +965,22 @@ button{cursor:pointer}
   (async function boot() {
     if (Array.isArray(window.__BT_PREVIEW_FEED__)) { setEditions(window.__BT_PREVIEW_FEED__); return; }
     if (Array.isArray(window.__BT_SNAPSHOT__) && window.__BT_SNAPSHOT__.length) setEditions(window.__BT_SNAPSHOT__);
-    var db = null;
-    try { db = window.claude && window.claude.use ? await window.claude.use("db") : null; } catch (e) { db = null; }
-    if (!db) return;
-    S.db = db;
-    db.collection("editions").orderBy("as_of", "desc").limit(30).onSnapshot(function (snap) {
-      var live = snap.docs.map(function (d) { return Object.assign({}, d.data(), { _id: d.id }); });
-      if (live.length) setEditions(live);
-    }, function () {});
+    /* the live feed: a public, read-only table. Nothing secret here — the key only reads published news. */
+    var FEED = "https://paoxcmxteemakhyvwihn.supabase.co/rest/v1/newsroom_editions?select=edition_id,as_of,as_of_label,title,origin,doc,checked_at&withdrawn=eq.false&order=as_of.desc&limit=24", FEEDKEY = "sb_publishable_yJs0TlF5CXaoRsZgxyHS3w_wr99QCkg";
+    async function pullFeed() {
+      try {
+        var res = await fetch(FEED, { headers: { apikey: FEEDKEY, Authorization: "Bearer " + FEEDKEY }, cache: "no-store" });
+        if (!res.ok) return;
+        var rows = await res.json();
+        if (!Array.isArray(rows) || !rows.length) return;
+        setEditions(rows.map(function (r) {
+          return Object.assign({}, r.doc, { _id: r.edition_id, checked_at: r.checked_at });
+        }));
+      } catch (e) { /* the snapshot stays on screen */ }
+    }
+    pullFeed();
+    setInterval(pullFeed, 60000);
+    document.addEventListener("visibilitychange", function () { if (!document.hidden) pullFeed(); });
   })();
 })();
 </script>
