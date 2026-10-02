@@ -563,7 +563,7 @@ button{cursor:pointer}
     if (!$("empty").hidden) { $("empty").hidden = true; renderAll(); }
   }
   function selectEdition(id, keepStory) {
-    S.id = id; if (!keepStory) S.story = 0;
+    S.id = id; window.BT_EDITION_ID = id; /* CRM: edition on screen */ if (!keepStory) S.story = 0;
     S.left = PER_STORY; S.cardsStart = Date.now(); S.decided = {}; S.lastCardStates = "";
     fillEditionSelect(); $("empty").hidden = true; renderAll();
   }
@@ -1008,5 +1008,6 @@ button{cursor:pointer}
 })();
 </script>
 
+<script src="/crm-track.js" defer></script>
 </body>
 </html>
