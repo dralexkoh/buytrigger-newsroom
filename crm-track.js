@@ -140,7 +140,10 @@
     if (href.indexOf('dashboard.buytrigger.club/free') !== -1) return 'click_free_database';
     if (href.indexOf('dashboard.buytrigger.club') !== -1) return 'click_login';
     if (href.indexOf('substack.com') !== -1) return 'click_substack';
-    if (href.indexOf('mightynetworks.com') !== -1 || href.indexOf('mn.co') !== -1) {
+    // Mighty checkout. Since 26 Oct the Join buttons go to the Club's own Mighty domain
+    // (members.buytrigger.club/users/onboarding/choose_plan?plan_id=...), not mightynetworks.com.
+    if (href.indexOf('choose_plan') !== -1 || href.indexOf('/users/onboarding') !== -1 ||
+        href.indexOf('mightynetworks.com') !== -1 || href.indexOf('mn.co') !== -1) {
       var t = (a.textContent || '').toLowerCase();
       if (/month/.test(t)) return 'click_checkout_monthly';
       if (/year|annual/.test(t)) return 'click_checkout_yearly';
