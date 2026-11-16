@@ -446,6 +446,72 @@ button{cursor:pointer}
   .legal .narrow{display:inline}
   .conf .wide{display:none}.conf .narrow{display:inline}
 }
+
+/* ── 3.25 tap navigation: phone only. Desktop is unchanged. ── */
+.segs,.brief,.more-btn,.pane,.tabs{display:none}
+@media (max-width:620px){
+  .fresh{max-width:none}
+  #fresh-text{display:none}
+  .pub{flex:0 0 auto;margin:0}
+  .pub a{flex:0 0 auto}
+  .pub .letter,.pub .join{display:none}
+  .app[data-mode="watch"] .segs{display:flex;gap:3px;position:absolute;left:16px;right:16px;top:3px}
+  .story{gap:12px}
+  .segs i{flex:1 1 0;min-width:0;height:4px;background:rgba(190,215,235,.2);overflow:hidden}
+  .segs i.done{background:rgba(244,247,250,.55)}
+  .segs i.now b{display:block;height:4px;background:var(--gold);animation:fill linear both}
+  .held .segs i.now b,.app:not([data-view="now"]) .segs i.now b{animation-play-state:paused}
+  .prog,.next-in,.rundown-btn,.ev-btn{display:none}
+  .app .stage .story .dek{display:none}
+  .brief{display:flex;flex-direction:column;gap:8px;flex:none}
+  .brief h3{margin:0 0 2px;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.12em;color:var(--muted)}
+  .brief .lt h3{color:var(--gold)}
+  .brief p{margin:0;font-size:14px;line-height:1.4;color:var(--soft);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .brief .lt p{font-size:15px;font-weight:500;color:var(--text);-webkit-line-clamp:3}
+  .app[data-fit="2"] .brief .wc,.app[data-fit="3"] .brief .wc,.app[data-fit="4"] .brief .wc{display:none}
+  .app[data-fit="3"] .brief .lt p{-webkit-line-clamp:2}
+  .app[data-fit="4"] .brief{display:none}
+  .app[data-fit="3"] .headline,.app[data-fit="4"] .headline{padding-bottom:.14em}
+  .ctrl{flex-wrap:nowrap}
+  .icon-btn,#pause-btn{width:44px;height:44px}
+  .more-btn{display:inline-flex;align-items:center;justify-content:center;flex:1 1 0;min-width:0;height:44px;padding:0 6px;border:1px solid rgba(255,215,0,.6);background:var(--panel);font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--gold);white-space:nowrap}
+  .app[data-mode="watch"] .pane{display:block;position:absolute;left:0;right:0;top:0;bottom:calc(36px + env(safe-area-inset-bottom,0px));z-index:5;overflow:auto;-webkit-overflow-scrolling:touch;background:var(--ground);padding:10px 16px 14px}
+  .app .pane[hidden]{display:none}
+  .pane-head{display:flex;align-items:stretch;min-height:32px;margin:0 0 8px}
+  .pane-head b{flex:none;display:flex;align-items:center;padding:0 20px 0 10px;background:var(--red);clip-path:polygon(0 0,100% 0,calc(100% - 12px) 100%,0 100%);font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:.08em;color:#fff}
+  .pane-head span{flex:1;min-width:0;margin-left:-6px;padding:4px 10px 4px 16px;display:flex;align-items:center;background:var(--panel-2);font-family:var(--mono);font-size:10px;letter-spacing:.04em;overflow-wrap:anywhere}
+  .pane-head.src{margin:4px 0 12px}
+  .pane .run{grid-template-columns:44px minmax(0,1fr) auto}
+  .pane .run .num{font-family:var(--display);font-weight:700;font-size:18px;white-space:nowrap;max-width:104px;overflow:hidden;text-overflow:ellipsis}
+  .pane .run.now .num{color:var(--gold)}
+  .pane .cat{padding:10px 0}
+  .pane .cat span{font-size:15px;line-height:1.4}
+  .pane-none{margin:12px 0;font-size:14px;color:var(--muted)}
+  .more .kick{margin-bottom:10px}
+  .more .ph{margin:0 0 6px;font-family:var(--display);font-weight:700;font-size:28px;line-height:1.02;letter-spacing:-.005em}
+  .more .by{margin:0 0 10px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--muted)}
+  .pcos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 12px}
+  .pco{min-width:0;padding:8px;background:var(--panel);border-top:3px solid var(--red)}
+  .pco:last-child{border-top-color:var(--gold)}
+  .pco b{display:block;font-family:var(--display);font-weight:700;font-size:21px;line-height:1;overflow-wrap:anywhere}
+  .pco:last-child b{color:var(--gold)}
+  .pco span{display:block;margin-top:4px;font-family:var(--mono);font-size:9px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);line-height:1.3}
+  .more h3{margin:0 0 2px;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.12em;color:var(--muted)}
+  .more h3.lt{color:var(--gold)}
+  .more h3.dv{color:var(--blue)}
+  .more p{margin:0 0 12px;font-size:15px;line-height:1.5;color:#e3ebf2}
+  .more p.lt{font-size:16px;line-height:1.4;font-weight:500;color:var(--text)}
+  .pane-ev{height:44px;padding:0 14px;border:1px solid var(--line);background:var(--panel);font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--gold)}
+  .app[data-mode="watch"] .tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));flex:none;position:relative;z-index:2;height:48px;background:var(--deep);border-top:1px solid var(--line)}
+  .app[data-mode="watch"] .tabs.more{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .tabs button,.tabs a{display:flex;align-items:center;justify-content:center;min-width:0;padding:0;border:0;border-top:3px solid transparent;background:transparent;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--soft);text-decoration:none;white-space:nowrap}
+  .tabs [aria-current="page"]{border-top-color:var(--gold);color:var(--gold)}
+  .tabs .tab-join{background:var(--gold);border-top-color:var(--gold);color:var(--ink)}
+  .app[data-view="more"] #tabs{display:none}
+  .app:not([data-view="more"]) #tabs-more{display:none}
+  .watch[hidden] ~ .tabs{display:none!important}
+}
+@media (prefers-reduced-motion:reduce){.segs i.now b{animation:none;width:100%}}
 </style>
 
 <div class="app" id="app" data-mode="watch" data-step="1">
@@ -459,6 +525,8 @@ button{cursor:pointer}
   <div class="watch" id="watch" hidden></div>
   <div class="work" id="work" hidden></div>
   <div class="os" id="os" hidden></div>
+  <nav class="tabs" id="tabs" aria-label="Sections"><button type="button" data-act="view" data-view="now" aria-current="page">NOW</button><button type="button" data-act="view" data-view="all" id="tab-all">ALL</button><button type="button" data-act="view" data-view="week">WEEK</button><a class="tab-letter" href="https://dralexkoh.substack.com" target="_blank" rel="noopener">LETTER</a><a class="tab-join" href="/join/">JOIN</a></nav>
+  <nav class="tabs more" id="tabs-more" aria-label="Story"><button type="button" data-act="view" data-view="now">BACK</button><button type="button" data-act="view" data-view="all" id="tab-all-2">ALL</button><button type="button" data-act="next">NEXT</button></nav>
   <div class="legal"><b>Research and education only. Not advice.</b><span class="wide">Capital at risk. Every number carries its source. Corrections lead their own story. © BuyTrigger · Dr Alex Koh</span><span class="narrow">Capital at risk. Every number is sourced.</span></div>
 </div>
 
@@ -471,7 +539,7 @@ button{cursor:pointer}
             cardsStart: Date.now(), decided: {}, lastCardStates: "", booted: false,
             admin: false, desk: {}, db: null, deskOff: null,
             os: { board: null, machines: null, numbers: null, ticks: {} }, osOff: null, skip: {},
-            play: "day", sheet: false };
+            play: "day", sheet: false, view: "now", pin: null };
   var NOOP = { hidden: true, textContent: "", value: "", placeholder: "", dataset: {}, style: {}, classList: { add: function () {}, remove: function () {}, toggle: function () {} }, setAttribute: function () {}, addEventListener: function () {}, innerHTML: "" };
   var $ = function (id) { return document.getElementById(id) || NOOP; };
   var app = $("app");
@@ -631,26 +699,31 @@ button{cursor:pointer}
   function sampleNote(e) { return e.note ? esc(e.note) : ""; }
 
   function renderWatch(e) {
+    var keep = view() !== "now" ? ($("pane").scrollTop || 0) : 0;
     var crawl = stories().map(function (s) { return '<div class="crawl-item"><i></i><span>' + esc(s.headline) + "</span></div>"; }).join("");
     var mkList = dayMarkets(), mk = marketItems({ markets: mkList });
     var cats = dayCatalysts().slice(0, 5).map(function (c) { return '<div class="cat"><b>' + esc(c.when) + "</b><span>" + esc(c.what) + "</span></div>"; }).join("");
     $("watch").className = "watch" + (S.paused ? " held" : "") + (S.sheet ? " sheet-open" : "");
     $("watch").innerHTML =
       '<div class="wedge" aria-hidden="true"></div><div class="wedge gold" aria-hidden="true"></div>' +
-      '<div class="watch-main"><section class="stage"><div id="stage-story" class="stage-story"></div>' +
+      '<div class="watch-main"><section class="stage"><div class="segs" id="segs" aria-hidden="true"></div><div id="stage-story" class="stage-story"></div>' +
       '<div class="lower"><div class="lower-tab">SOURCES</div><div class="lower-text" id="lower-text"></div></div>' +
       '<div class="ctrl"><button type="button" class="icon-btn" data-act="prev" aria-label="Previous story"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>' +
       '<button type="button" class="text-btn" data-act="pause" id="pause-btn" aria-label="Pause">' + pauseInner() + "</button>" +
+      '<button type="button" class="more-btn" data-act="more">MORE ON THIS STORY</button>' +
       '<button type="button" class="icon-btn" data-act="next" aria-label="Next story"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>' +
       '<div class="prog" id="prog"></div><div class="next-in">NEXT IN <span id="secleft"></span>S</div>' +
       '<button type="button" class="text-btn rundown-btn" data-act="rundown">RUNDOWN</button>' +
       '<button type="button" class="text-btn ev-btn" data-act="proof" title="' + (S.admin ? "Open the evidence for this story" : "Members see the evidence") + '">EVIDENCE</button></div></section>' +
       '<aside class="rail"><div class="rail-head"><h2>RUNDOWN</h2><span>ROLLED <b id="rolled"></b></span><button type="button" class="sheet-close" data-act="rundown" aria-label="Close the rundown">CLOSE</button></div><div class="rundown-wrap"><div id="rundown"></div></div>' +
       (cats ? '<div class="coming"><h2>COMING UP</h2>' + cats + "</div>" : "") + "</aside></div>" +
+      '<div class="pane" id="pane" hidden></div>' +
       '<footer class="tickers"><div class="band crawl"><div class="band-tab">THE DESK</div><div class="band-view"><div class="track" style="animation-duration:' + Math.max(30, stories().length * 12) + 's">' + crawl + crawl + "</div></div></div>" +
       (mk ? '<div class="band mkts"><div class="band-tab">MARKETS</div><div class="band-view"><div class="track" style="animation-duration:' + Math.max(24, mkList.length * 4.5) + 's">' + mk + mk + "</div></div></div>" : "") +
       "</footer>";
+    repin();
     renderStory();
+    if (keep) $("pane").scrollTop = keep;
   }
   function pauseInner() {
     return (S.paused
@@ -658,6 +731,91 @@ button{cursor:pointer}
       : '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>') +
       "<span>" + (S.paused ? "RESUME" : "PAUSE") + "</span>";
   }
+  /* ── 3.25 tap navigation (phone): one screen, move by tapping ── */
+  var PHONE = window.matchMedia ? window.matchMedia("(max-width:620px)") : { matches: false };
+  function view() { return PHONE.matches && S.mode === "watch" ? S.view : "now"; }
+  function cap(x) { return x ? x.charAt(0).toUpperCase() + x.slice(1) : x; }
+  function sentenceEnd(x) {
+    var re = /[.!?]+["”’)]*\s+/g, m;
+    while ((m = re.exec(x))) {
+      var before = x.slice(Math.max(0, m.index - 5), m.index + 1);
+      if (/(?:\b[ap]\.m\.|\bU\.[SK]\.|\bvs\.|\bInc\.|\bCorp\.|\bCo\.|\bLtd\.|\bNo\.|\bMr\.|\bMs\.|\bDr\.|\bSt\.|\be\.g\.|\bi\.e\.)$/i.test(before)) continue;
+      var nx = x.charAt(m.index + m[0].length);
+      if (!nx || /[A-Z0-9"“$£€¥(]/.test(nx)) return m.index + m[0].length;
+    }
+    return x.length;
+  }
+  /* The desk files one paragraph. Its own markers split it: "For long-term holders" and "Desk view:". Nothing is rewritten. */
+  function splitDek(dek) {
+    var t = String(dek || "").replace(/\s+/g, " ").trim(), out = { what: "", holders: "", desk: "" };
+    var d = t.search(/\bDesk view:/i);
+    if (d >= 0) { out.desk = cap(t.slice(d).replace(/^Desk view:\s*/i, "")); t = t.slice(0, d).trim(); }
+    var h = t.search(/\bFor long-term holders\b/);
+    if (h >= 0) {
+      var tail = t.slice(h), end = sentenceEnd(tail), first = tail.slice(0, end).trim(), rest = tail.slice(end).trim();
+      out.holders = /^For long-term holders(?! of\b),?\s+/.test(first) ? cap(first.replace(/^For long-term holders,?\s+/, "")) : first;
+      t = (t.slice(0, h).trim() + (rest ? " " + rest : "")).trim();
+    }
+    out.what = t;
+    return out;
+  }
+  function briefHtml(s) {
+    var sp = splitDek(s.dek);
+    return '<div class="brief">' + (sp.what ? '<div class="wc"><h3>WHAT CHANGED</h3><p>' + esc(sp.what) + "</p></div>" : "") +
+      (sp.holders ? '<div class="lt"><h3>FOR LONG-TERM HOLDERS</h3><p>' + esc(sp.holders) + "</p></div>" : "") + "</div>";
+  }
+  function pinNow(i) { var s = stories()[i == null ? S.story : i]; S.pin = s && s._edition != null ? { ed: s._edition, ei: s._ei } : null; }
+  function repin() {
+    if (S.view !== "more" || !S.pin) return;
+    var list = stories();
+    for (var k = 0; k < list.length; k++) if (list[k]._edition === S.pin.ed && list[k]._ei === S.pin.ei) { S.story = k; return; }
+  }
+  function filedLabel() { var de = dayEditions()[0] || edition(); return de ? String(de.as_of_label || "").toUpperCase() : ""; }
+  function renderPane() {
+    var p = $("pane"), v = view(), list = stories(), n = list.length, i = S.story, html = "";
+    app.dataset.view = v;
+    $("tab-all").textContent = "ALL " + n; $("tab-all-2").textContent = "ALL " + n;
+    var tabs = document.querySelectorAll("#tabs [data-view]");
+    for (var t = 0; t < tabs.length; t++) { if (tabs[t].dataset.view === v) tabs[t].setAttribute("aria-current", "page"); else tabs[t].removeAttribute("aria-current"); }
+    if (v === "now" || !n) { p.hidden = true; p.innerHTML = ""; return; }
+    var lab = filedLabel();
+    if (v === "all") {
+      html = '<div class="pane-head"><b>THE DAY SO FAR</b><span>' + esc(n + " STORIES" + (lab ? " · " + lab : "")) + '</span></div><div class="rundown">';
+      for (var k = 0; k < n; k++) {
+        var r = list[k], c0 = (r.callouts || [])[0];
+        html += '<button type="button" class="run' + (k === i ? " now" : "") + '" data-act="jump" data-i="' + k + '"><span class="slotno">' + (k === i ? "NOW" : pad(k + 1)) +
+          '</span><span><span class="meta"><b>' + esc(r.tag) + "</b><span>" + esc(r._when || r.asof) + '</span></span><span class="short">' + esc(r.short || r.headline) +
+          '</span></span><span class="num">' + esc(c0 ? c0.v : "") + "</span></button>";
+      }
+      html += "</div>";
+    } else if (v === "week") {
+      var cats = dayCatalysts();
+      html = '<div class="pane-head"><b>COMING UP</b><span>' + esc(lab ? "FILED " + lab : "") + "</span></div>" +
+        (cats.length ? cats.map(function (c) { return '<div class="cat"><b>' + esc(c.when) + "</b><span>" + esc(c.what) + "</span></div>"; }).join("") : '<p class="pane-none">Nothing filed yet.</p>');
+    } else {
+      var s = list[i], sp = splitDek(s.dek), ed = null;
+      for (var e = 0; e < S.editions.length; e++) if (S.editions[e]._id === s._edition) { ed = S.editions[e]; break; }
+      var by = ed ? String(ed.as_of_label || "").toUpperCase() : lab;
+      var co = (s.callouts || []).slice(0, 3).map(function (c) { return '<div class="pco"><b>' + esc(c.v) + "</b><span>" + esc(c.l) + "</span></div>"; }).join("");
+      html = '<article class="more"><div class="kick"><span class="tag">' + esc(s.tag) + '</span><span class="pos">' + (i + 1) + " OF " + n + "</span>" +
+        (s._when ? '<span class="when">' + esc(s._when) + "</span>" : "") + '<span class="conf lv-' + esc(s.level || "mid") + '">' + esc(s.conf || s.state || "") + "</span></div>" +
+        '<h1 class="ph">' + esc(s.headline) + '</h1><div class="by">BUYTRIGGER NEWSROOM' + (by ? " · " + esc(by) : "") + "</div>" +
+        (co ? '<div class="pcos">' + co + "</div>" : "") +
+        (sp.what ? "<h3>WHAT CHANGED</h3><p>" + esc(sp.what) + "</p>" : "") +
+        (sp.holders ? '<h3 class="lt">FOR LONG-TERM HOLDERS</h3><p class="lt">' + esc(sp.holders) + "</p>" : "") +
+        (sp.desk ? '<h3 class="dv">DESK VIEW · OPINION, NOT FACT</h3><p>' + esc(sp.desk) + "</p>" : "") +
+        (s.sources ? '<div class="pane-head src"><b>SOURCES</b><span>' + esc(s.sources) + "</span></div>" : "") +
+        '<button type="button" class="pane-ev" data-act="proof">EVIDENCE</button></article>';
+    }
+    p.innerHTML = html; p.hidden = false; p.scrollTop = 0;
+  }
+  function setView(v) {
+    S.view = v; S.left = PER_STORY;
+    if (v === "more") pinNow(); else S.pin = null;
+    if (v === "now") renderStory(); else renderPane();
+  }
+  if (PHONE.addEventListener) PHONE.addEventListener("change", function () { renderPane(); });
+
   var fitTimer = null;
   function fitStage() {
     var stage = document.querySelector(".stage"), ss = $("stage-story"); if (!stage || !ss || $("watch").hidden) return;
@@ -674,10 +832,12 @@ button{cursor:pointer}
     var co = (s.callouts || []).slice(0, 3).map(function (c) { return '<div class="callout"><b>' + esc(c.v) + "</b><span>" + esc(c.l) + "</span></div>"; }).join("");
     $("stage-story").innerHTML = '<div class="story"><div class="kick"><span class="tag">' + esc(s.tag) + '</span><span class="slot">' + esc(s.slot) +
       '</span><span class="pos">' + (i + 1) + " OF " + n + "</span>" + (s._when ? '<span class="when">' + esc(s._when) + "</span>" : "") + '<span class="conf lv-' + esc(s.level || "mid") + '"><span class="wide">' + esc(s.conf || s.state || "") + '</span><span class="narrow">' + esc(String(s.conf || s.state || "").split(" · ")[0]) + "</span></span></div>" +
-      '<h1 class="headline">' + esc(s.headline) + '</h1><p class="dek">' + esc(s.dek) + "</p>" + (co ? '<div class="callouts">' + co + "</div>" : "") + "</div>";
+      '<h1 class="headline">' + esc(s.headline) + '</h1><p class="dek">' + esc(s.dek) + "</p>" + briefHtml(s) + (co ? '<div class="callouts">' + co + "</div>" : "") + "</div>";
     $("lower-text").textContent = s.sources || "";
     $("prog").innerHTML = '<i style="animation-duration:' + PER_STORY + 's"></i>';
     $("rolled").textContent = london(Date.now(), HMS);
+    var seg = ""; for (var q = 0; q < n; q++) seg += '<i class="' + (q < i ? "done" : q === i ? "now" : "") + '">' + (q === i ? '<b style="animation-duration:' + PER_STORY + 's"></b>' : "") + "</i>";
+    $("segs").innerHTML = seg;
     var rows = "";
     for (var k = 0; k < n; k++) {
       var idx = (i + k) % n, r = list[idx];
@@ -687,9 +847,10 @@ button{cursor:pointer}
     $("rundown").innerHTML = '<div class="rundown">' + rows + "</div>";
     $("secleft").textContent = S.left;
     $("pause-btn").innerHTML = pauseInner();
+    renderPane();
     fitStage();
   }
-  function goStory(i) { S.story = i; S.left = PER_STORY; if (S.mode === "watch") renderStory(); else renderWorkStory(); }
+  function goStory(i) { S.story = i; S.left = PER_STORY; if (S.view === "more") pinNow(i); if (S.mode === "watch") renderStory(); else renderWorkStory(); }
 
   var ST_TEXT = { ok: "PRIMARY · VERIFIED", sec: "SECONDARY", single: "SINGLE SOURCE", unconf: "UNCONFIRMED", stale: "STALE FEED", disc: "DISCOVERY · NOT PROOF" };
   var ST_CLS = { ok: "st-ok", sec: "st-sec", single: "st-warn", unconf: "st-warn", stale: "st-warn", disc: "st-disc" };
@@ -902,7 +1063,9 @@ button{cursor:pointer}
     else if (act === "note") saveNote();
     else if (act === "prev") goStory((S.story - 1 + n) % n);
     else if (act === "next") goStory((S.story + 1) % n);
-    else if (act === "jump") { if (S.sheet) { S.sheet = false; $("watch").classList.remove("sheet-open"); } goStory(Number(b.dataset.i) || 0); }
+    else if (act === "view") setView(b.dataset.view);
+    else if (act === "more") setView("more");
+    else if (act === "jump") { if (S.sheet) { S.sheet = false; $("watch").classList.remove("sheet-open"); } S.view = "now"; S.pin = null; goStory(Number(b.dataset.i) || 0); }
     else if (act === "pause") { S.paused = !S.paused; $("watch").classList.toggle("held", S.paused); $("pause-btn").innerHTML = pauseInner(); }
     else if (act === "rundown") { S.sheet = !S.sheet; $("watch").classList.toggle("sheet-open", S.sheet); }
     else if (act === "proof") proof();
@@ -978,7 +1141,7 @@ button{cursor:pointer}
     if ($("empty").hidden === false) return;
     if (new Date().getSeconds() % 20 === 0) renderFresh();
     if (S.mode === "watch") {
-      if (!S.paused) { S.left -= 1; if (S.left <= 0) { goStory((S.story + 1) % (stories().length || 1)); return; } }
+      if (!S.paused && view() === "now") { S.left -= 1; if (S.left <= 0) { goStory((S.story + 1) % (stories().length || 1)); return; } }
       if ($("secleft")) $("secleft").textContent = S.left;
     } else renderCards(false);
   }, 1000);
