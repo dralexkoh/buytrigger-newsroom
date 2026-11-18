@@ -458,7 +458,7 @@ button{cursor:pointer}
   .app[data-mode="watch"] .segs{display:flex;gap:3px;position:absolute;left:16px;right:16px;top:3px}
   .story{gap:12px}
   .segs i{flex:1 1 0;min-width:0;height:4px;background:rgba(190,215,235,.2);overflow:hidden}
-  .segs i.done{background:rgba(244,247,250,.55)}
+  .segs i.done{background:rgba(244,247,250,.55);display:block;padding:0;border:0}
   .segs i.now b{display:block;height:4px;background:var(--gold);animation:fill linear both}
   .held .segs i.now b,.app:not([data-view="now"]) .segs i.now b{animation-play-state:paused}
   .prog,.next-in,.rundown-btn,.ev-btn{display:none}
@@ -510,6 +510,8 @@ button{cursor:pointer}
   .app[data-view="more"] #tabs{display:none}
   .app:not([data-view="more"]) #tabs-more{display:none}
   .watch[hidden] ~ .tabs{display:none!important}
+  .empty:not([hidden]) ~ #tabs{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .empty:not([hidden]) ~ #tabs button{display:none}
 }
 @media (prefers-reduced-motion:reduce){.segs i.now b{animation:none;width:100%}}
 </style>
@@ -1150,23 +1152,71 @@ button{cursor:pointer}
   $("clock").textContent = london(Date.now(), HMS);
   (async function boot() {
     if (Array.isArray(window.__BT_PREVIEW_FEED__)) { setEditions(window.__BT_PREVIEW_FEED__); return; }
-    if (Array.isArray(window.__BT_SNAPSHOT__) && window.__BT_SNAPSHOT__.length) setEditions(window.__BT_SNAPSHOT__);
-    /* the live feed: a public, read-only table. Nothing secret here — the key only reads published news. */
-    var FEED = "https://paoxcmxteemakhyvwihn.supabase.co/rest/v1/newsroom_editions?select=edition_id,as_of,as_of_label,title,origin,doc,checked_at&withdrawn=eq.false&order=as_of.desc&limit=24", FEEDKEY = "sb_publishable_yJs0TlF5CXaoRsZgxyHS3w_wr99QCkg";
-    async function pullFeed() {
-      try {
-        var res = await fetch(FEED, { headers: { apikey: FEEDKEY, Authorization: "Bearer " + FEEDKEY }, cache: "no-store" });
-        if (!res.ok) return;
-        var rows = await res.json();
-        if (!Array.isArray(rows) || !rows.length) return;
-        setEditions(rows.map(function (r) {
-          return Object.assign({}, r.doc, { _id: r.edition_id, checked_at: r.checked_at });
-        }));
-      } catch (e) { /* the snapshot stays on screen */ }
+    /* 18 Nov 2026 — an edition that is more than a day and a half old is never shown as today's news.
+       The longest normal gap between editions is Sunday 11:45 to Monday 06:45. */
+    var STALE_MS = 36 * 3600 * 1000;
+    function newestAt(list) { var t = 0; (list || []).forEach(function (e) { t = Math.max(t, Date.parse(e.as_of) || 0, Date.parse(e.checked_at || "") || 0); }); return t; }
+    function isStale(list) { var t = newestAt(list); return !t || Date.now() - t > STALE_MS; }
+    function showStale() {
+      S.editions = []; S.id = null; $("fresh").hidden = true;
+      showEmpty("No fresh edition right now", "Older editions are not shown as if they were today's news. Fresh editions appear here automatically.");
     }
-    pullFeed();
-    setInterval(pullFeed, 60000);
-    document.addEventListener("visibilitychange", function () { if (!document.hidden) pullFeed(); });
+    if (Array.isArray(window.__BT_SNAPSHOT__) && window.__BT_SNAPSHOT__.length && !isStale(window.__BT_SNAPSHOT__)) setEditions(window.__BT_SNAPSHOT__);
+    /* the live feed: a public, read-only table. Nothing secret here — the key only reads published news. */
+    /* 18 Nov 2026 — the page used to download the newest 24 full editions every minute, changed or not.
+       It now asks a small question first (which editions exist) and downloads a full edition once, when it is new.
+       No checks run while the tab is in the background, and checks slow down while the feed cannot be reached. */
+    var BASE = "https://paoxcmxteemakhyvwihn.supabase.co/rest/v1/newsroom_editions", FEEDKEY = "sb_publishable_yJs0TlF5CXaoRsZgxyHS3w_wr99QCkg";
+    var INDEX = BASE + "?select=edition_id,as_of,checked_at&withdrawn=eq.false&order=as_of.desc&limit=24";
+    var FULL = BASE + "?select=edition_id,as_of,as_of_label,title,origin,doc,checked_at&withdrawn=eq.false&edition_id=in.";
+    var EVERY = 60000, SLOWEST = 15 * 60000;
+    var have = {}, shown = "", busy = false, wait = EVERY, timer = null, last = 0;
+    async function getRows(url) {
+      var res = await fetch(url, { headers: { apikey: FEEDKEY, Authorization: "Bearer " + FEEDKEY }, cache: "no-store" });
+      if (!res.ok) throw new Error("feed " + res.status);
+      var rows = await res.json();
+      if (!Array.isArray(rows)) throw new Error("feed shape");
+      return rows;
+    }
+    async function pullFeed() {
+      if (busy) return;
+      busy = true; last = Date.now();
+      try {
+        var index = await getRows(INDEX);
+        if (index.length) {
+          var missing = index.filter(function (r) {
+            var h = have[r.edition_id];
+            return /^[A-Za-z0-9_.-]+$/.test(String(r.edition_id)) && (!h || h.as_of !== r.as_of || (h.checked_at || "") !== (r.checked_at || ""));
+          }).map(function (r) { return r.edition_id; });
+          if (missing.length) (await getRows(FULL + "(" + missing.join(",") + ")")).forEach(function (r) { have[r.edition_id] = r; });
+          var list = [], keep = {};
+          index.forEach(function (r) { var h = have[r.edition_id]; if (h) { h.checked_at = r.checked_at; keep[r.edition_id] = h; list.push(h); } });
+          have = keep; /* an edition that was withdrawn, or has left the newest 24, drops out here */
+          var sig = list.map(function (r) { return r.edition_id + "|" + r.as_of + "|" + (r.checked_at || ""); }).join(",");
+          if (list.length && sig !== shown) {
+            shown = sig;
+            var eds = list.map(function (r) { return Object.assign({}, r.doc, { _id: r.edition_id, checked_at: r.checked_at }); });
+            if (isStale(eds)) showStale(); else setEditions(eds);
+          }
+        }
+        wait = EVERY;
+      } catch (e) {
+        /* whatever is on screen stays; ask less often while the feed cannot be reached */
+        wait = Math.min(wait * 2, SLOWEST);
+        if (!S.editions.length) showStale();
+      }
+      busy = false;
+    }
+    async function tick() {
+      clearTimeout(timer);
+      if (!document.hidden) {
+        await pullFeed();
+        if (S.editions.length && isStale(S.editions)) { shown = ""; showStale(); }
+      }
+      timer = setTimeout(tick, wait);
+    }
+    tick();
+    document.addEventListener("visibilitychange", function () { if (!document.hidden && Date.now() - last > 30000) tick(); });
   })();
 })();
 </script>
