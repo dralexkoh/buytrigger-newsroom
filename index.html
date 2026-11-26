@@ -3,19 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="The BuyTrigger news channel. The market every two hours, written for family investors. Every number carries its source.">
+<meta name="description" content="The BuyTrigger news channel. The market through the day, written for family investors. Every number carries its source.">
 <meta name="theme-color" content="#04121f">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="BuyTrigger Newsroom">
-<meta property="og:title" content="BuyTrigger Newsroom — the market, every two hours">
+<meta property="og:title" content="BuyTrigger Newsroom — the market, through the day">
 <meta property="og:description" content="Why the market moved, what the fear gauge reads, and which names moved — in plain English, every number sourced. Free.">
 <meta property="og:url" content="https://buytrigger.club/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="BuyTrigger Newsroom — the market, every two hours">
+<meta name="twitter:title" content="BuyTrigger Newsroom — the market, through the day">
 <meta name="twitter:description" content="Why the market moved, what the fear gauge reads, and which names moved — in plain English, every number sourced. Free.">
 <link rel="canonical" href="https://buytrigger.club/">
 <meta name="robots" content="index,follow">
-<title>BuyTrigger Newsroom — the market, every two hours</title>
+<title>BuyTrigger Newsroom — the market, through the day</title>
 <style>html,body{margin:0;padding:0;background:#04121f}</style>
 </head>
 <body>
@@ -992,7 +992,7 @@ body.qr-on .chev,body.qr-on .hint,body.qr-on .pager{visibility:hidden}
   /* ───────── the one place to point this page at a feed ─────────
      A public, read-only table. The key only reads published news. To move the site to another
      Supabase project, change url and key here and nothing else. */
-  var FEED = { url: "https://paoxcmxteemakhyvwihn.supabase.co", key: "sb_publishable_yJs0TlF5CXaoRsZgxyHS3w_wr99QCkg", table: "newsroom_editions", newest: 24 };
+  var FEED = { url: "https://paoxcmxteemakhyvwihn.supabase.co", key: "sb_publishable_yJs0TlF5CXaoRsZgxyHS3w_wr99QCkg", table: "newsroom_editions", newest: 8 };   /* a full weekday is 5 editions; the deck shows the newest day. 24 made every visit download a week it never showed. */
 
   var CHECK_EVERY = 60000;            /* a light "which editions exist?" check; a full edition downloads once */
   var CHECK_SLOWEST = 15 * 60000;     /* checks slow to this while the feed cannot be reached */
@@ -1298,7 +1298,7 @@ body.qr-on .chev,body.qr-on .hint,body.qr-on .pager{visibility:hidden}
     }
     if (!fresh()) { pill.className = "pill quiet"; $("pill-text").textContent = "FEED QUIET"; text.textContent = ""; return; }
     var filed = Date.parse(e.as_of), checked = Date.parse(e.checked_at || ""), latest = Math.max(filed || 0, checked || 0);
-    var live = latest && Date.now() - latest < 3 * 3600 * 1000;
+    var live = latest && Date.now() - latest < 6 * 3600 * 1000;   /* five editions a weekday leave gaps of up to five hours */
     pill.className = "pill " + (live ? "live" : "quiet");
     $("pill-text").textContent = live ? "ROLLING" : "FEED QUIET";
     text.innerHTML = '<span class="wide">FILED ' + esc(london(filed, { weekday: "short" }).toUpperCase() + " " + dayMonth(filed)) + " · </span>" + esc(london(filed, HM)) +
